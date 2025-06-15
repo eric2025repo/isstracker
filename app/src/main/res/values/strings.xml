@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">ISS Tracker</string>
+    <string name="title">ISS TRACKER</string>
+    <string name="update_iss_location">Update ISS Location</string>
+    <string name="latitude">Latitude:</string>
+    <string name="longitude">Longitude:</string>
+    <string name="time">Time:</string>
+    <string name="update">UPDATE</string>
+    <string name="background">background</string>
+</resources>
