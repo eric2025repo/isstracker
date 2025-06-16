@@ -1,6 +1,7 @@
 package com.cop4655.isstracker
 
 import android.graphics.Color
+import android.graphics.Typeface
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
@@ -9,10 +10,10 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.cardview.widget.CardView
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.squareup.picasso.Picasso
+import androidx.core.graphics.toColorInt
 
 class CrewActivity : AppCompatActivity() {
     private lateinit var tv_iss_expedition: TextView
@@ -24,13 +25,10 @@ class CrewActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_crew)
 
-//        var iss_expedition: Int
-//        var expedition_url: String
-
         tv_iss_expedition = findViewById(R.id.tv_iss_expedition)
         tv_expedition_url = findViewById(R.id.tv_expedition_url)
         tv_people = findViewById(R.id.tv_people)
-        val crewLayout: RelativeLayout = findViewById(R.id.crew)
+        val crewLayout: LinearLayout = findViewById(R.id.crew)
 
 
         ExpeditionCall().getExpedition(this) { expedition ->
@@ -41,29 +39,43 @@ class CrewActivity : AppCompatActivity() {
                 if (person.iss) {
                     listing = listing + person.name + "\n"
                     // create dynamic imageview to add to layout
-                    val cardView = CardView(this)
-                    val imageView = ImageView(this)
+                    val personLayout = RelativeLayout(this)
+                    val portraitImageView = ImageView(this)
+                    val nameTextView = TextView(this)
                     val flagImageView = ImageView(this)
                     val portraitId: Int = View.generateViewId()
-
+                    val nameId: Int = View.generateViewId()
+                    val flagId: Int = View.generateViewId()
+                    portraitImageView.id = portraitId
+                    nameTextView.id = nameId
+                    flagImageView.id = flagId
 //                    imageViewParam.addRule(RelativeLayout.CENTER_HORIZONTAL);
                     //imageView.layoutParams = RelativeLayout.
 
-                    cardView.setCardElevation(20F)
-                    cardView.id = portraitId
-                    cardView.setCardBackgroundColor(Color.BLUE)
+                    //personLayout.setCardElevation(20F)
+                    //personLayout.setCardBackgroundColor(Color.BLUE)
+                    //radius = 10.toFloat()
 
-                    val cardViewParams = LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.MATCH_PARENT,
-                        LinearLayout.LayoutParams.WRAP_CONTENT).also {
+                    val personLayoutParams = RelativeLayout.LayoutParams(
+                        RelativeLayout.LayoutParams.MATCH_PARENT,
+                        RelativeLayout.LayoutParams.WRAP_CONTENT).also {
                         it.setMargins(5, 5, 5, 5)
                     }
 
-                    cardView.apply {
-                        radius = 10.toFloat()
-                        this.layoutParams = cardViewParams
+                    personLayout.setBackgroundColor("#000080".toColorInt())
+                    nameTextView.setTextColor("#FFFFFF".toColorInt())
+                    nameTextView.setTypeface(null, Typeface.BOLD)
+                    nameTextView.textSize = 20F
+
+                    personLayout.apply {
+                        this.layoutParams = personLayoutParams
                     }
 
+                    nameTextView.x = 250F
+                    nameTextView.y = 0F
+
+                    flagImageView.x = 250F
+                    flagImageView.y = 75F
 
                     // get image to load into dynamic imageview
                     Picasso.get()
@@ -71,7 +83,9 @@ class CrewActivity : AppCompatActivity() {
                         .centerCrop()
                         .placeholder(R.drawable.iss_stroke_159x100_purple)
                         .resize(200,300)
-                        .into(imageView)
+                        .into(portraitImageView)
+
+                    nameTextView.text = person.name
 
                     Picasso.get()
                         .load("https://flagsapi.com/" + person.flag_code.uppercase() + "/flat/64.png")
@@ -80,12 +94,12 @@ class CrewActivity : AppCompatActivity() {
                         .resize(64,64)
                         .into(flagImageView)
 
-
                     // add image to cardView
-                    cardView.addView(imageView)
-                    cardView.addView(flagImageView)
+                    personLayout.addView(portraitImageView)
+                    personLayout.addView(nameTextView)
+                    personLayout.addView(flagImageView)
                     // add cardView to layout
-                    crewLayout.addView(cardView)
+                    crewLayout.addView(personLayout)
                 }
             }
             tv_people.text = listing
