@@ -6,5 +6,7 @@
     <string name="longitude">Longitude:</string>
     <string name="time">Time:</string>
     <string name="update">UPDATE</string>
-    <string name="background">background</string>
+    <string name="background">ISS background</string>
+    <string name="image_of_crew">Image of crew</string>
+    <string name="mission_patch">Mission patch</string>
 </resources>

@@ -170,4 +170,25 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/btnRow" />
+
+    <ImageButton
+        android:id="@+id/imageCrew"
+        android:contentDescription="@string/image_of_crew"
+        android:onClick="launchSettings"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/map_fragment"
+        android:layout_alignStart="@+id/map_fragment" />
+
+    <ImageButton
+        android:id="@+id/missionPatch"
+        android:contentDescription="@string/mission_patch"
+        android:onClick="launchSettings"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/map_fragment"
+        android:layout_alignEnd="@+id/map_fragment" />
+
 </RelativeLayout>

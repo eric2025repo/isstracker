@@ -1,8 +1,10 @@
 package com.cop4655.isstracker
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
+import android.widget.ImageButton
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
@@ -17,12 +19,15 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import java.text.SimpleDateFormat
 import java.util.Locale
+import com.squareup.picasso.Picasso;
 
 class MainActivity : AppCompatActivity() {
     private lateinit var btnLocation: Button
     private lateinit var tvLatitude: TextView
     private lateinit var tvLongitude: TextView
     private lateinit var tvTime: TextView
+    private lateinit var imageCrew: ImageButton
+    private lateinit var missionPatch: ImageButton
     private lateinit var progressBar: ProgressBar
     private var latLng: LatLng = LatLng(0.0, 0.0)
     private lateinit var issPlace: Place
@@ -35,25 +40,26 @@ class MainActivity : AppCompatActivity() {
         var issLatitude: Double = 0.0
         var issLongitude: Double = 0.0
 
-        // Find the button view by its ID and
+        // Find the element view by its ID and
         // assign it to a variable.
         btnLocation = findViewById(R.id.btnLocation)
-
-        // Find the text view by its ID and
-        // assign it to a variable.
         tvLatitude = findViewById(R.id.tvLatitude)
-
-        // Find the text view by its ID and
-        // assign it to a variable.
         tvLongitude = findViewById(R.id.tvLongitude)
-
-        // Find the text view by its ID and
-        // assign it to a variable.
         tvTime = findViewById(R.id.tvTime)
-
-        // Find the progress bar and assign
-        // it to the variable.
         progressBar = findViewById(R.id.idLoadingPB)
+        imageCrew = findViewById(R.id.imageCrew)
+        missionPatch = findViewById(R.id.missionPatch)
+        Picasso.get()
+            .load("https://upload.wikimedia.org/wikipedia/commons/3/3a/The_official_portrait_of_the_Expedition_73_crew_%28iss073-s-002%29.jpg")
+            .placeholder(R.drawable.iss_stroke_159x100_purple)
+            .resize(300,300)
+            .into(imageCrew)
+
+        Picasso.get()
+            .load("https://upload.wikimedia.org/wikipedia/commons/a/a4/ISS_Expedition_73_Patch.png")
+            .placeholder(R.drawable.iss_stroke_159x100_purple)
+            .resize(300,300)
+            .into(missionPatch)
 
         // Set an OnClickListener on the button view.
         btnLocation.setOnClickListener {
@@ -63,8 +69,13 @@ class MainActivity : AppCompatActivity() {
                 addToMap(issLatitude, issLongitude)
             }
         }
-        // show the progress bar
 
+        imageCrew.setOnClickListener {
+            val intent = Intent(this, CrewActivity::class.java)
+            startActivity(intent)
+        }
+
+        // show the progress bar
         progressBar.visibility = View.VISIBLE
 
         ApiCall().getLocation(this) { coordinates ->
