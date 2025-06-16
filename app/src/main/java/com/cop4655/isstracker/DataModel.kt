@@ -6,10 +6,10 @@ import java.io.Serializable
 data class DataModel(
     var message: String,
     var timestamp: Long,
-    var issPosition: IssPosition
+    var iss_position: Iss_position
 ) : Serializable
 
-data class IssPosition(
+data class Iss_position(
     var latitude: Double,
     var longitude: Double
 ) : Serializable

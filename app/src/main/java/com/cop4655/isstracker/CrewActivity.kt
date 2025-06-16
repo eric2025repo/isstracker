@@ -1,15 +1,17 @@
 package com.cop4655.isstracker
 
+import android.graphics.Color
 import android.os.Bundle
+import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.setPadding
 import com.squareup.picasso.Picasso
 
 class CrewActivity : AppCompatActivity() {
@@ -28,7 +30,7 @@ class CrewActivity : AppCompatActivity() {
         tv_iss_expedition = findViewById(R.id.tv_iss_expedition)
         tv_expedition_url = findViewById(R.id.tv_expedition_url)
         tv_people = findViewById(R.id.tv_people)
-        val crewLayout: LinearLayout = findViewById(R.id.crew)
+        val crewLayout: RelativeLayout = findViewById(R.id.crew)
 
 
         ExpeditionCall().getExpedition(this) { expedition ->
@@ -41,9 +43,26 @@ class CrewActivity : AppCompatActivity() {
                     // create dynamic imageview to add to layout
                     val cardView = CardView(this)
                     val imageView = ImageView(this)
-//                    imageView.layoutParams = LinearLayout.LayoutParams(400, 400)
-                    cardView.setCardElevation(20F)
+                    val flagImageView = ImageView(this)
+                    val portraitId: Int = View.generateViewId()
 
+//                    imageViewParam.addRule(RelativeLayout.CENTER_HORIZONTAL);
+                    //imageView.layoutParams = RelativeLayout.
+
+                    cardView.setCardElevation(20F)
+                    cardView.id = portraitId
+                    cardView.setCardBackgroundColor(Color.BLUE)
+
+                    val cardViewParams = LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT).also {
+                        it.setMargins(5, 5, 5, 5)
+                    }
+
+                    cardView.apply {
+                        radius = 10.toFloat()
+                        this.layoutParams = cardViewParams
+                    }
 
 
                     // get image to load into dynamic imageview
@@ -54,8 +73,17 @@ class CrewActivity : AppCompatActivity() {
                         .resize(200,300)
                         .into(imageView)
 
+                    Picasso.get()
+                        .load("https://flagsapi.com/" + person.flag_code.uppercase() + "/flat/64.png")
+                        .centerCrop()
+                        .placeholder(R.drawable.iss_stroke_159x100_purple)
+                        .resize(64,64)
+                        .into(flagImageView)
+
+
                     // add image to cardView
                     cardView.addView(imageView)
+                    cardView.addView(flagImageView)
                     // add cardView to layout
                     crewLayout.addView(cardView)
                 }

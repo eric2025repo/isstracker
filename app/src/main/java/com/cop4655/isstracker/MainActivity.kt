@@ -64,8 +64,8 @@ class MainActivity : AppCompatActivity() {
         // Set an OnClickListener on the button view.
         btnLocation.setOnClickListener {
             ApiCall().getLocation(this) { coordinates ->
-                issLatitude = coordinates.issPosition.latitude
-                issLongitude = coordinates.issPosition.longitude
+                issLatitude = coordinates.iss_position.latitude
+                issLongitude = coordinates.iss_position.longitude
                 addToMap(issLatitude, issLongitude)
             }
         }
@@ -79,8 +79,8 @@ class MainActivity : AppCompatActivity() {
         progressBar.visibility = View.VISIBLE
 
         ApiCall().getLocation(this) { coordinates ->
-            issLatitude = coordinates.issPosition.latitude
-            issLongitude = coordinates.issPosition.longitude
+            issLatitude = coordinates.iss_position.latitude
+            issLongitude = coordinates.iss_position.longitude
             addToMap(issLatitude, issLongitude)
         }
 
