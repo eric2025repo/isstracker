@@ -19,7 +19,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import java.text.SimpleDateFormat
 import java.util.Locale
-import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Picasso
 
 class MainActivity : AppCompatActivity() {
     private lateinit var btnLocation: Button
@@ -93,7 +93,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun addMarkers(googleMap: GoogleMap, places: List<Place>) {
         places.forEach { place ->
-            val marker = googleMap.addMarker(
+            googleMap.addMarker(
                 MarkerOptions()
                     .title(place.name)
                     .position(place.latLng)
