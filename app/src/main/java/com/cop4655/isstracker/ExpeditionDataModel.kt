@@ -22,7 +22,7 @@ data class Crew(
     val agency: String,
     val position: String,
     val spacecraft: String,
-    val launched: String,
+    val launched: Long,
     val iss: Boolean,
     val days_in_space: Int,
     val url: String,

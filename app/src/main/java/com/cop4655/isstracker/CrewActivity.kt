@@ -1,5 +1,6 @@
 package com.cop4655.isstracker
 
+import android.content.Intent
 import android.graphics.Typeface
 import android.os.Build
 import android.os.Bundle
@@ -15,15 +16,15 @@ import androidx.core.graphics.toColorInt
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.squareup.picasso.Picasso
-import java.text.SimpleDateFormat
-import java.util.Date
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
+import androidx.core.net.toUri
 
 class CrewActivity : AppCompatActivity() {
     private lateinit var iv_patch: ImageView
+    private lateinit var iv_crew: ImageView
     private lateinit var tv_iss_expedition: TextView
     private lateinit var tv_start_date: TextView
     private lateinit var tv_end_date: TextView
@@ -35,6 +36,7 @@ class CrewActivity : AppCompatActivity() {
         setContentView(R.layout.activity_crew)
 
         iv_patch = findViewById(R.id.iv_patch)
+        iv_crew = findViewById(R.id.iv_crew)
         tv_iss_expedition = findViewById(R.id.tv_iss_expedition)
         tv_start_date = findViewById(R.id.tv_start_date)
         tv_end_date = findViewById(R.id.tv_end_date)
@@ -49,6 +51,25 @@ class CrewActivity : AppCompatActivity() {
                 .placeholder(R.drawable.iss_stroke_159x100_purple)
                 .resize(260, 300)
                 .into(iv_patch)
+
+            iv_patch.setOnClickListener {
+                val openURL = Intent(Intent.ACTION_VIEW)
+                openURL.data = expedition.expedition_url.toUri()
+                startActivity(openURL)
+            }
+
+            Picasso.get()
+                .load(expedition.expedition_image)
+                .placeholder(R.drawable.iss_stroke_159x100_purple)
+                .resize(375, 300)
+                .into(iv_crew)
+
+            iv_crew.setOnClickListener {
+                val openURL = Intent(Intent.ACTION_VIEW)
+                openURL.data = expedition.expedition_url.toUri()
+                startActivity(openURL)
+            }
+
             tv_iss_expedition.text = buildString {
                 append(getString(R.string.expedition))
                 append(expedition.iss_expedition.toString())
@@ -68,17 +89,23 @@ class CrewActivity : AppCompatActivity() {
                     // create dynamic imageview to add to layout
                     val personLayout = RelativeLayout(this)
                     val portraitImageView = ImageView(this)
-                    val flagImageView = ImageView(this)
                     val nameTextView = TextView(this)
                     val positionTextView = TextView(this)
+                    val flagImageView = ImageView(this)
+                    val agencyTextView = TextView(this)
+                    val launchedTextView = TextView(this)
                     val portraitId: Int = View.generateViewId()
-                    val flagId: Int = View.generateViewId()
                     val nameId: Int = View.generateViewId()
                     val positionId: Int = View.generateViewId()
+                    val flagId: Int = View.generateViewId()
+                    val agencyId: Int = View.generateViewId()
+                    val launchedId: Int = View.generateViewId()
                     portraitImageView.id = portraitId
-                    flagImageView.id = flagId
                     nameTextView.id = nameId
                     positionTextView.id = positionId
+                    flagImageView.id = flagId
+                    agencyTextView.id = agencyId
+                    launchedTextView.id = launchedId
 //                    imageViewParam.addRule(RelativeLayout.CENTER_HORIZONTAL);
                     //imageView.layoutParams = RelativeLayout.
 
@@ -102,6 +129,14 @@ class CrewActivity : AppCompatActivity() {
                     positionTextView.setTypeface(null, Typeface.BOLD_ITALIC)
                     positionTextView.textSize = 17F
 
+                    agencyTextView.setTextColor("#FFFFFF".toColorInt())
+                    agencyTextView.setTypeface(null, Typeface.BOLD)
+                    agencyTextView.textSize = 17F
+
+                    launchedTextView.setTextColor("#FFFFFF".toColorInt())
+                    launchedTextView.setTypeface(null, Typeface.BOLD)
+                    launchedTextView.textSize = 17F
+
                     personLayout.apply {
                         this.layoutParams = personLayoutParams
                     }
@@ -111,10 +146,16 @@ class CrewActivity : AppCompatActivity() {
                     nameTextView.y = topMargin
 
                     positionTextView.x = leftMargin
-                    positionTextView.y = topMargin + 55F
+                    positionTextView.y = topMargin + 60F
 
                     flagImageView.x = leftMargin
-                    flagImageView.y = topMargin + 102F
+                    flagImageView.y = topMargin + 111F
+
+                    agencyTextView.x = leftMargin + 100F
+                    agencyTextView.y = topMargin + 117F
+
+                    launchedTextView.x = leftMargin
+                    launchedTextView.y = topMargin + 177F
 
                     // populate images and values
                     Picasso.get()
@@ -126,6 +167,11 @@ class CrewActivity : AppCompatActivity() {
 
                     nameTextView.text = person.name
                     positionTextView.text = person.position
+                    agencyTextView.text = person.agency
+                    launchedTextView.text = buildString {
+                        append(getString(R.string.launched))
+                        append(epochToReadableDateWithTimeZone(person.launched+(86400), "UTC").toString())
+                    }
 
                     Picasso.get()
                         .load("https://flagsapi.com/" + person.flag_code.uppercase() + "/flat/64.png")
@@ -139,6 +185,8 @@ class CrewActivity : AppCompatActivity() {
                     personLayout.addView(nameTextView)
                     personLayout.addView(positionTextView)
                     personLayout.addView(flagImageView)
+                    personLayout.addView(agencyTextView)
+                    personLayout.addView(launchedTextView)
                     // add personLayout to crewLayout
                     crewLayout.addView(personLayout)
                 }
