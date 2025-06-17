@@ -47,6 +47,7 @@ dependencies {
     implementation(libs.squareup.retrofit)
     implementation(libs.android.gms)
     implementation ("com.squareup.picasso:picasso:2.8")
+    implementation(libs.play.services.location)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

@@ -174,17 +174,24 @@
     <ImageButton
         android:id="@+id/imageCrew"
         android:contentDescription="@string/image_of_crew"
-        android:onClick="launchSettings"
         style="?android:attr/borderlessButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/map_fragment"
         android:layout_alignStart="@+id/map_fragment" />
 
+    <TextView
+        android:id="@+id/locationText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:fontFamily="@font/source_sans_pro_bold"
+        android:layout_alignBottom="@+id/map_fragment"
+        android:textColor="@color/black" />
+
     <ImageButton
         android:id="@+id/missionPatch"
         android:contentDescription="@string/mission_patch"
-        android:onClick="launchSettings"
         style="?android:attr/borderlessButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
