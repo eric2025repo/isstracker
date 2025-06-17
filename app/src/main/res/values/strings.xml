@@ -9,4 +9,8 @@
     <string name="background">ISS background</string>
     <string name="image_of_crew">Image of crew</string>
     <string name="mission_patch">Mission patch</string>
+    <string name="mission_patch_image">Mission Patch</string>
+    <string name="expedition">"Expedition "</string>
+    <string name="start_date">"Start Date: "</string>
+    <string name="end_date">"End Date: "</string>
 </resources>

@@ -9,8 +9,8 @@ data class ExpeditionDataModel(
     val expedition_patch: String,
     val expedition_url: String,
     val expedition_image: String,
-    val expedition_start_date: String,
-    val expedition_end_date: String,
+    val expedition_start_date: Long,
+    val expedition_end_date: Long,
     val people: List<Crew>
 ) : Serializable
 
