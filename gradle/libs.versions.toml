@@ -13,6 +13,7 @@ retrofit2 = "2.9.0"
 retrofit = "2.0.0-beta2"
 gms = "19.2.0"
 playServicesLocation = "21.3.0"
+picasso = "2.8"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -27,6 +28,7 @@ squareup-retrofit2 = { group = "com.squareup.retrofit2", name = "retrofit", vers
 squareup-retrofit = { group = "com.squareup.retrofit", name = "converter-gson", version.ref = "retrofit" }
 android-gms = { group = "com.google.android.gms", name = "play-services-maps", version.ref = "gms" }
 play-services-location = { group = "com.google.android.gms", name = "play-services-location", version.ref = "playServicesLocation" }
+picasso = { group = "com.squareup.picasso", name = "picasso", version.ref = "picasso" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

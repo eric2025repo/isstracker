@@ -40,7 +40,10 @@ class MainActivity : AppCompatActivity() {
     private lateinit var issPlace: Place
 
     // Define a constant for the location permission request code
-    private val LOCATION_PERMISSION_REQUEST = 1001
+    private val locationPermissionRequest = BuildConfig.LOCATION_PERMISSION_REQUEST
+    //private val n2yoApiKey = "tello"
+    private val n2yoApiKey = BuildConfig.N2YO_API_KEY
+    //private val locationPermissionRequest = 1001
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,8 +52,8 @@ class MainActivity : AppCompatActivity() {
 
         // Initialize the location provider client
         locationClient = LocationServices.getFusedLocationProviderClient(this)
-        var issLatitude: Double = 0.0
-        var issLongitude: Double = 0.0
+        var issLatitude = 0.0
+        var issLongitude = 0.0
 
         // Find the element view by its ID and
         // assign it to a variable.
@@ -62,17 +65,21 @@ class MainActivity : AppCompatActivity() {
         imageCrew = findViewById(R.id.imageCrew)
         locationText = findViewById(R.id.locationText)
         missionPatch = findViewById(R.id.missionPatch)
-        Picasso.get()
-            .load("https://upload.wikimedia.org/wikipedia/commons/3/3a/The_official_portrait_of_the_Expedition_73_crew_%28iss073-s-002%29.jpg")
-            .placeholder(R.drawable.iss_stroke_159x100_purple)
-            .resize(300, 300)
-            .into(imageCrew)
 
-        Picasso.get()
-            .load("https://upload.wikimedia.org/wikipedia/commons/a/a4/ISS_Expedition_73_Patch.png")
-            .placeholder(R.drawable.iss_stroke_159x100_purple)
-            .resize(300, 300)
-            .into(missionPatch)
+        ExpeditionCall().getExpedition(this) { expedition ->
+            // set crew header content
+            Picasso.get()
+                .load(expedition.expedition_image)
+                .placeholder(R.drawable.iss_stroke_159x100_purple)
+                .resize(300, 300)
+                .into(imageCrew)
+
+            Picasso.get()
+                .load(expedition.expedition_patch)
+                .placeholder(R.drawable.iss_stroke_159x100_purple)
+                .resize(300, 300)
+                .into(missionPatch)
+        }
 
         // Set an OnClickListener on the button view.
         btnLocation.setOnClickListener {
@@ -182,7 +189,7 @@ class MainActivity : AppCompatActivity() {
             ActivityCompat.requestPermissions(
                 this,
                 arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-                LOCATION_PERMISSION_REQUEST
+                locationPermissionRequest
             )
             return
         }
@@ -195,7 +202,8 @@ class MainActivity : AppCompatActivity() {
                 val lon = location.longitude
 
                 // Display location in the TextView
-                locationText.text = getString(R.string.latitude_longitude, lat.toString(), lon.toString())
+                locationText.text =
+                    getString(R.string.latitude_longitude, lat.toString(), lon.toString())
             } else {
                 // If location is null, display an error message
                 locationText.text = getString(R.string.unable_to_get_location)
@@ -212,7 +220,7 @@ class MainActivity : AppCompatActivity() {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
 
         // Check if the permission was granted
-        if (requestCode == LOCATION_PERMISSION_REQUEST &&
+        if (requestCode == locationPermissionRequest &&
             grantResults.isNotEmpty() &&
             grantResults[0] == PackageManager.PERMISSION_GRANTED
         ) {

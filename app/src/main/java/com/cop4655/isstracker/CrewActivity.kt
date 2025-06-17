@@ -41,8 +41,8 @@ class CrewActivity : AppCompatActivity() {
         tv_start_date = findViewById(R.id.tv_start_date)
         tv_end_date = findViewById(R.id.tv_end_date)
         val crewLayout: LinearLayout = findViewById(R.id.crew)
-        val topMargin: Float = 20F
-        val leftMargin: Float = 305F
+        val topMargin = 20F
+        val leftMargin = 305F
 
         ExpeditionCall().getExpedition(this) { expedition ->
             // set crew header content
@@ -170,7 +170,7 @@ class CrewActivity : AppCompatActivity() {
                     agencyTextView.text = person.agency
                     launchedTextView.text = buildString {
                         append(getString(R.string.launched))
-                        append(epochToReadableDateWithTimeZone(person.launched+(86400), "UTC").toString())
+                        append(epochToReadableDateWithTimeZone(person.launched, "UTC").toString())
                     }
 
                     Picasso.get()
