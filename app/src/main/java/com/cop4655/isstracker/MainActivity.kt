@@ -195,10 +195,10 @@ class MainActivity : AppCompatActivity() {
                 val lon = location.longitude
 
                 // Display location in the TextView
-                locationText.text = "Latitude: $lat\nLongitude: $lon"
+                locationText.text = getString(R.string.latitude_longitude, lat.toString(), lon.toString())
             } else {
                 // If location is null, display an error message
-                locationText.text = "Unable to get location"
+                locationText.text = getString(R.string.unable_to_get_location)
             }
         }
     }
@@ -220,7 +220,7 @@ class MainActivity : AppCompatActivity() {
             getCurrentLocation()
         } else {
             // If permission is denied, update the TextView with an error message
-            locationText.text = "Location permission denied"
+            locationText.text = getString(R.string.location_permission_denied)
         }
     }
 }
