@@ -71,13 +71,13 @@ class MainActivity : AppCompatActivity() {
             Picasso.get()
                 .load(expedition.expedition_image)
                 .placeholder(R.drawable.iss_stroke_159x100_purple)
-                .resize(300, 300)
+                .resize(375, 300)
                 .into(imageCrew)
 
             Picasso.get()
                 .load(expedition.expedition_patch)
                 .placeholder(R.drawable.iss_stroke_159x100_purple)
-                .resize(300, 300)
+                .resize(260, 300)
                 .into(missionPatch)
         }
 
