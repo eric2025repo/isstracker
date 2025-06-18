@@ -4,12 +4,16 @@ import java.io.Serializable
 
 // Model class for ISS location
 data class VisualPassDataModel(
+    val info: Info,
+    val passes: List<Pass>
+) : Serializable
+
+data class Info (
     val satid: Long,
     val satname: String,
     val transactionscount: Int,
     val passescount: Int,
-    val passes: List<Pass>
-) : Serializable
+)
 
 data class Pass(
     val startAz: Double,

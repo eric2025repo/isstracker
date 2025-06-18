@@ -98,7 +98,7 @@ class MainActivity : AppCompatActivity() {
         // show the progress bar
         progressBar.visibility = View.VISIBLE
 
-        getCurrentLocation()
+        getNextVisualPasses()
 
         ApiCall().getLocation(this) { coordinates ->
             issLatitude = coordinates.iss_position.latitude
@@ -204,6 +204,45 @@ class MainActivity : AppCompatActivity() {
                 // Display location in the TextView
                 locationText.text =
                     getString(R.string.latitude_longitude, lat.toString(), lon.toString())
+            } else {
+                // If location is null, display an error message
+                locationText.text = getString(R.string.unable_to_get_location)
+            }
+        }
+    }
+
+    // Function to get the current location
+    private fun getNextVisualPasses() {
+        // Check if the location permission is granted
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            // If permission is not granted, request it from the user
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                locationPermissionRequest
+            )
+            return
+        }
+
+        // Fetch the last known location
+        locationClient.lastLocation.addOnSuccessListener { location ->
+            if (location != null) {
+                // If location is available, extract latitude and longitude
+                val lat = location.latitude
+                val lon = location.longitude
+
+
+                VisualPassCall().getVisualPass(this) { visualPass ->
+                    // Display location in the TextView
+                    locationText.text =
+                        getString(R.string.latitude_longitude, lat.toString(), lon.toString()) + visualPass.info.satname
+
+                }
+
             } else {
                 // If location is null, display an error message
                 locationText.text = getString(R.string.unable_to_get_location)

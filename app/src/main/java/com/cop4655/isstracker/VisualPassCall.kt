@@ -35,15 +35,19 @@ class VisualPassCall {
                     // response body to a DataModel object.
                     val visualPass: VisualPassDataModel = response.body() as VisualPassDataModel
 
+                    Toast.makeText(context, response.body().toString(), Toast.LENGTH_LONG).show()
+
                     // Call the callback function with the VisualPassDataModel
                     // object as a parameter.
                     callback(visualPass)
+                } else {
+                    Toast.makeText(context, "VisualPass Request Fail", Toast.LENGTH_LONG).show()
                 }
             }
 
             override fun onFailure(t: Throwable?) {
                 // This method is called when the API request fails.
-                Toast.makeText(context, "Request Fail", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "VisualPass Request Fail", Toast.LENGTH_LONG).show()
             }
         })
     }
