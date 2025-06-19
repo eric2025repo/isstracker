@@ -186,9 +186,11 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/map_fragment"
         android:layout_centerInParent="true"
-        android:layout_marginBottom="225dp"
+        android:layout_marginBottom="215dp"
         android:fontFamily="@font/source_sans_pro_bold"
-        android:background="#88ffffff"
+        android:background="#99ffffff"
+        android:padding="5dp"
+        android:textAlignment="center"
         android:textColor="@color/black" />
 
     <ImageButton

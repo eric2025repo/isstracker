@@ -29,6 +29,6 @@ data class Pass(
     val endEl: Double,
     val endUTC: Long,
     val mag: Double,
-    val duration: Double,
+    val duration: Int,
     val startVisibility: Long
 ) : Serializable

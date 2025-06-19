@@ -3,6 +3,7 @@ package com.cop4655.isstracker
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
@@ -10,6 +11,7 @@ import android.widget.ImageButton
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.view.ViewCompat
@@ -23,7 +25,12 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.squareup.picasso.Picasso
+import kotlinx.datetime.Clock
 import java.text.SimpleDateFormat
+import kotlinx.datetime.Instant
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toLocalDateTime
+
 import java.util.Locale
 
 class MainActivity : AppCompatActivity() {
@@ -41,10 +48,10 @@ class MainActivity : AppCompatActivity() {
 
     // Define a constant for the location permission request code
     private val locationPermissionRequest = BuildConfig.LOCATION_PERMISSION_REQUEST
-    //private val n2yoApiKey = "tello"
-    private val n2yoApiKey = BuildConfig.N2YO_API_KEY
+    //private val n2yoApiKey = BuildConfig.N2YO_API_KEY
     //private val locationPermissionRequest = 1001
 
+    @RequiresApi(Build.VERSION_CODES.S)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -211,7 +218,10 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+
+
     // Function to get the current location
+    @RequiresApi(Build.VERSION_CODES.S)
     private fun getNextVisualPasses() {
         // Check if the location permission is granted
         if (ActivityCompat.checkSelfPermission(
@@ -231,16 +241,23 @@ class MainActivity : AppCompatActivity() {
         // Fetch the last known location
         locationClient.lastLocation.addOnSuccessListener { location ->
             if (location != null) {
-                // If location is available, extract latitude and longitude
-                val lat = location.latitude
-                val lon = location.longitude
 
+                val currentLocation = LatLng(location.latitude, location.longitude)
+                //val currentLocation = LatLng(28.08, -80.61)
 
-                VisualPassCall().getVisualPass(this) { visualPass ->
-                    // Display location in the TextView
+                VisualPassCall().getVisualPass(this, currentLocation) { visualPass ->
+                    // Display next pass time and into in the TextView
+                    val clock: Clock = Clock.System
+                    val now = clock.now()
+                    val nextPassEpoch: Long = visualPass.passes[0].startUTC * 1000
+                    val nextPassTime = Instant.fromEpochMilliseconds(nextPassEpoch)
+
+                    val duration = nextPassTime - now
+
                     locationText.text =
-                        getString(R.string.latitude_longitude, lat.toString(), lon.toString()) + visualPass.info.satname
-
+                        "ISS will be visible in your sky in\n" + duration + "\non\n" + nextPassTime.toLocalDateTime(TimeZone.of("America/New_York")) + "\nfor " + visualPass.passes[0].duration + " seconds"
+//                        visualPass.passes[0].startUTC.toString()
+//                        visualPass.passes[0].startAzCompass + " " + visualPass.passes[0].startAz + "\n" + visualPass.passes[0].mag.toString()
                 }
 
             } else {
