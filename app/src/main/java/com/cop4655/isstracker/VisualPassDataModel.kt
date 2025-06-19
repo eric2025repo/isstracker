@@ -8,7 +8,7 @@ data class VisualPassDataModel(
     val passes: List<Pass>
 ) : Serializable
 
-data class Info (
+data class Info(
     val satid: Long,
     val satname: String,
     val transactionscount: Int,

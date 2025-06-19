@@ -10,6 +10,7 @@ import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ProgressBar
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -26,11 +27,10 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.squareup.picasso.Picasso
 import kotlinx.datetime.Clock
-import java.text.SimpleDateFormat
 import kotlinx.datetime.Instant
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
-
+import java.text.SimpleDateFormat
 import java.util.Locale
 
 class MainActivity : AppCompatActivity() {
@@ -183,42 +183,42 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /*
+        // Function to get the current location
+        private fun getCurrentLocation() {
+            // Check if the location permission is granted
+            if (ActivityCompat.checkSelfPermission(
+                    this,
+                    Manifest.permission.ACCESS_FINE_LOCATION
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                // If permission is not granted, request it from the user
+                ActivityCompat.requestPermissions(
+                    this,
+                    arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                    locationPermissionRequest
+                )
+                return
+            }
 
-    // Function to get the current location
-    private fun getCurrentLocation() {
-        // Check if the location permission is granted
-        if (ActivityCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            // If permission is not granted, request it from the user
-            ActivityCompat.requestPermissions(
-                this,
-                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-                locationPermissionRequest
-            )
-            return
-        }
+            // Fetch the last known location
+            locationClient.lastLocation.addOnSuccessListener { location ->
+                if (location != null) {
+                    // If location is available, extract latitude and longitude
+                    val lat = location.latitude
+                    val lon = location.longitude
 
-        // Fetch the last known location
-        locationClient.lastLocation.addOnSuccessListener { location ->
-            if (location != null) {
-                // If location is available, extract latitude and longitude
-                val lat = location.latitude
-                val lon = location.longitude
-
-                // Display location in the TextView
-                locationText.text =
-                    getString(R.string.latitude_longitude, lat.toString(), lon.toString())
-            } else {
-                // If location is null, display an error message
-                locationText.text = getString(R.string.unable_to_get_location)
+                    // Display location in the TextView
+                    locationText.text =
+                        getString(R.string.latitude_longitude, lat.toString(), lon.toString())
+                } else {
+                    // If location is null, display an error message
+                    locationText.text = getString(R.string.unable_to_get_location)
+                }
             }
         }
-    }
 
-
+    */
 
     // Function to get the current location
     @RequiresApi(Build.VERSION_CODES.S)
@@ -245,6 +245,9 @@ class MainActivity : AppCompatActivity() {
                 val currentLocation = LatLng(location.latitude, location.longitude)
                 //val currentLocation = LatLng(28.08, -80.61)
 
+
+//                Toast.makeText(this, "timezone: " + , Toast.LENGTH_LONG).show()
+
                 VisualPassCall().getVisualPass(this, currentLocation) { visualPass ->
                     // Display next pass time and into in the TextView
                     val clock: Clock = Clock.System
@@ -255,9 +258,12 @@ class MainActivity : AppCompatActivity() {
                     val duration = nextPassTime - now
 
                     locationText.text =
-                        "ISS will be visible in your sky in\n" + duration + "\non\n" + nextPassTime.toLocalDateTime(TimeZone.of("America/New_York")) + "\nfor " + visualPass.passes[0].duration + " seconds"
-//                        visualPass.passes[0].startUTC.toString()
-//                        visualPass.passes[0].startAzCompass + " " + visualPass.passes[0].startAz + "\n" + visualPass.passes[0].mag.toString()
+                        getString(
+                            R.string.visibility,
+                            duration.toString(),
+                            nextPassTime.toLocalDateTime(TimeZone.currentSystemDefault()),
+                            visualPass.passes[0].duration.toString()
+                        )
                 }
 
             } else {
@@ -267,6 +273,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /*
     // Handle the result of the permission request
     override fun onRequestPermissionsResult(
         requestCode: Int,
@@ -286,6 +293,6 @@ class MainActivity : AppCompatActivity() {
             // If permission is denied, update the TextView with an error message
             locationText.text = getString(R.string.location_permission_denied)
         }
-    }
+    }*/
 }
 
