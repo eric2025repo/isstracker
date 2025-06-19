@@ -18,5 +18,6 @@
     <string name="unable_to_get_location">Unable to get location</string>
     <string name="location_permission_denied">Location permission denied</string>
     <string name="latitude_longitude">Latitude: %1$s\nLongitude: %2$s</string>
-    <string name="visibility">ISS will be visible in your sky in\n%1$s\non\n%2$s\nfor %3$s seconds</string>
+    <string name="visibility">ISS will be visible in your sky in\n%1$s\n%2$s</string>
+    <string name="direction">Starting azimuth: %1$s %2$s\nStarting elevation: %3$s\nEnding azimuth: %4$s %5$s\nEnding elevation: %6$s\nDuration: %7$d seconds</string>
 </resources>

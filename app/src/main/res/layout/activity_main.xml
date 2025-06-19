@@ -181,17 +181,34 @@
         android:layout_alignStart="@+id/map_fragment" />
 
     <TextView
-        android:id="@+id/locationText"
+        android:id="@+id/nextPassText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/map_fragment"
         android:layout_centerInParent="true"
-        android:layout_marginBottom="215dp"
+        android:layout_marginBottom="240dp"
         android:fontFamily="@font/source_sans_pro_bold"
+        android:textSize="20sp"
+        android:textStyle="bold"
         android:background="#99ffffff"
         android:padding="5dp"
         android:textAlignment="center"
-        android:textColor="@color/black" />
+        android:textColor="@color/navy" />
+
+    <TextView
+        android:id="@+id/directionText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/map_fragment"
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="130dp"
+        android:fontFamily="@font/source_sans_pro_bold"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:background="#99ffffff"
+        android:padding="5dp"
+        android:textAlignment="textStart"
+        android:textColor="@color/navy" />
 
     <ImageButton
         android:id="@+id/missionPatch"

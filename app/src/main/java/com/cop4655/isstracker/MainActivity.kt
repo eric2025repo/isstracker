@@ -10,7 +10,6 @@ import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ProgressBar
 import android.widget.TextView
-import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -40,7 +39,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var tvLongitude: TextView
     private lateinit var tvTime: TextView
     private lateinit var imageCrew: ImageButton
-    private lateinit var locationText: TextView
+    private lateinit var nextPassText: TextView
+    private lateinit var directionText: TextView
     private lateinit var missionPatch: ImageButton
     private lateinit var progressBar: ProgressBar
     private var latLng: LatLng = LatLng(0.0, 0.0)
@@ -70,7 +70,8 @@ class MainActivity : AppCompatActivity() {
         tvTime = findViewById(R.id.tvTime)
         progressBar = findViewById(R.id.idLoadingPB)
         imageCrew = findViewById(R.id.imageCrew)
-        locationText = findViewById(R.id.locationText)
+        nextPassText = findViewById(R.id.nextPassText)
+        directionText = findViewById(R.id.directionText)
         missionPatch = findViewById(R.id.missionPatch)
 
         ExpeditionCall().getExpedition(this) { expedition ->
@@ -209,11 +210,11 @@ class MainActivity : AppCompatActivity() {
                     val lon = location.longitude
 
                     // Display location in the TextView
-                    locationText.text =
+                    nextPassText.text =
                         getString(R.string.latitude_longitude, lat.toString(), lon.toString())
                 } else {
                     // If location is null, display an error message
-                    locationText.text = getString(R.string.unable_to_get_location)
+                    nextPassText.text = getString(R.string.unable_to_get_location)
                 }
             }
         }
@@ -257,18 +258,29 @@ class MainActivity : AppCompatActivity() {
 
                     val duration = nextPassTime - now
 
-                    locationText.text =
+                    nextPassText.text =
                         getString(
                             R.string.visibility,
                             duration.toString(),
-                            nextPassTime.toLocalDateTime(TimeZone.currentSystemDefault()),
-                            visualPass.passes[0].duration.toString()
+                            nextPassTime.toLocalDateTime(TimeZone.currentSystemDefault())
                         )
+                    directionText.text =
+                        getString(
+                            R.string.direction,
+                            visualPass.passes[0].startAzCompass,
+                            visualPass.passes[0].startAz.toString() + "\u00B0",
+                            visualPass.passes[0].startEl.toString() + "\u00B0",
+                            visualPass.passes[0].endAzCompass,
+                            visualPass.passes[0].endAz.toString() + "\u00B0",
+                            visualPass.passes[0].endEl.toString() + "\u00B0",
+                            visualPass.passes[0].duration
+                        )
+
                 }
 
             } else {
                 // If location is null, display an error message
-                locationText.text = getString(R.string.unable_to_get_location)
+                nextPassText.text = getString(R.string.unable_to_get_location)
             }
         }
     }

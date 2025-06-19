@@ -134,7 +134,6 @@ class CrewActivity : AppCompatActivity() {
                     agencyTextView.textSize = 17F
 
                     launchedTextView.setTextColor("#FFFFFF".toColorInt())
-                    launchedTextView.setTypeface(null, Typeface.BOLD)
                     launchedTextView.textSize = 17F
 
                     personLayout.apply {
