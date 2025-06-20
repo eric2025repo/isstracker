@@ -8,6 +8,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -28,6 +29,7 @@ class CrewActivity : AppCompatActivity() {
     private lateinit var tv_iss_expedition: TextView
     private lateinit var tv_start_date: TextView
     private lateinit var tv_end_date: TextView
+    private lateinit var spacecraftdatamodel: SpacecraftDataModel
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,6 +45,10 @@ class CrewActivity : AppCompatActivity() {
         val crewLayout: LinearLayout = findViewById(R.id.crew)
         val topMargin = 20F
         val leftMargin = 340F
+
+        SpacecraftCall().getSpacecraft(this) { spacecraft ->
+            spacecraftdatamodel = spacecraft
+        }
 
         ExpeditionCall().getExpedition(this) { expedition ->
             // set crew header content
@@ -108,6 +114,8 @@ class CrewActivity : AppCompatActivity() {
                     val facebookImageView = ImageView(this)
                     val twitterImageView = ImageView(this)
                     val instagramImageView = ImageView(this)
+                    val spacecraftImageView = ImageView(this)
+                    val spacecraftTextView = TextView(this)
                     /*
                     // generate ids for each element
                     val portraitId: Int = View.generateViewId()
@@ -157,6 +165,10 @@ class CrewActivity : AppCompatActivity() {
                     launchedTextView.setTextColor("#FFFFFF".toColorInt())
                     launchedTextView.textSize = 17F
 
+                    spacecraftTextView.setTextColor("#FFFFFF".toColorInt())
+                    spacecraftTextView.setTypeface(null, Typeface.BOLD)
+                    spacecraftTextView.textSize = 17F
+
                     // apply characteristics to person layout
                     personLayout.apply {
                         this.layoutParams = personLayoutParams
@@ -187,6 +199,12 @@ class CrewActivity : AppCompatActivity() {
                     instagramImageView.x = leftMargin + 300F
                     instagramImageView.y = topMargin + 290F
 
+                    spacecraftImageView.x = leftMargin + 700F
+                    spacecraftImageView.y = topMargin + 50F
+
+                    spacecraftTextView.x = leftMargin + 600F
+                    spacecraftTextView.y = topMargin + 250F
+
                     // populate images and values
                     Picasso.get()
                         .load(person.image)
@@ -197,11 +215,6 @@ class CrewActivity : AppCompatActivity() {
 
                     nameTextView.text = person.name
                     positionTextView.text = person.position
-                    agencyTextView.text = person.agency
-                    launchedTextView.text = buildString {
-                        append(getString(R.string.launched))
-                        append(epochToReadableDateWithTimeZone(person.launched, "UTC").toString())
-                    }
 
                     Picasso.get()
                         .load("https://flagsapi.com/" + person.flag_code.uppercase() + "/flat/64.png")
@@ -209,6 +222,12 @@ class CrewActivity : AppCompatActivity() {
                         .placeholder(R.drawable.iss_stroke_159x100_purple)
                         .resize(80, 80)
                         .into(flagImageView)
+
+                    agencyTextView.text = person.agency
+                    launchedTextView.text = buildString {
+                        append(getString(R.string.launched))
+                        append(epochToReadableDateWithTimeZone(person.launched, "UTC").toString())
+                    }
 
                     Picasso.get()
                         .load(R.drawable.facebook_logo_secondary)
@@ -227,6 +246,22 @@ class CrewActivity : AppCompatActivity() {
                         .centerCrop()
                         .resize(60, 60)
                         .into(instagramImageView)
+
+                    for (spacecraft in spacecraftdatamodel.spacecraft) {
+                        if (person.spacecraft == spacecraft.name) {
+                            spacecraftTextView.text = spacecraft.name
+                            Picasso.get()
+                                .load(spacecraft.mission_patch)
+                                .centerCrop()
+                                .resize(200, 200)
+                                .into(spacecraftImageView)
+                            spacecraftImageView.setOnClickListener {
+                                val openURL = Intent(Intent.ACTION_VIEW)
+                                openURL.data = spacecraft.url.toUri()
+                                startActivity(openURL)
+                            }
+                        }
+                    }
 
                     // set onclick listeners
                     if (person.url != "") {
@@ -262,6 +297,8 @@ class CrewActivity : AppCompatActivity() {
                     personLayout.addView(flagImageView)
                     personLayout.addView(agencyTextView)
                     personLayout.addView(launchedTextView)
+                    personLayout.addView(spacecraftImageView)
+                    personLayout.addView(spacecraftTextView)
                     if (person.facebook != "") {
                         personLayout.addView(facebookImageView)
                     }
