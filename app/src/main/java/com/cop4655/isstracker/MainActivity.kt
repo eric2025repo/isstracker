@@ -14,6 +14,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -34,7 +35,7 @@ import java.util.Locale
 
 class MainActivity : AppCompatActivity() {
     private lateinit var locationClient: FusedLocationProviderClient
-    private lateinit var btnLocation: Button
+    private lateinit var btnLocation: ImageButton
     private lateinit var tvLatitude: TextView
     private lateinit var tvLongitude: TextView
     private lateinit var tvTime: TextView
@@ -73,6 +74,9 @@ class MainActivity : AppCompatActivity() {
         nextPassText = findViewById(R.id.nextPassText)
         directionText = findViewById(R.id.directionText)
         missionPatch = findViewById(R.id.missionPatch)
+
+        nextPassText.background = ContextCompat.getDrawable(this, R.drawable.frontshape)
+        directionText.background = ContextCompat.getDrawable(this, R.drawable.frontshape)
 
         ExpeditionCall().getExpedition(this) { expedition ->
             // set crew header content

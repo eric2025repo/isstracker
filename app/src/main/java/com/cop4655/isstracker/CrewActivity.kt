@@ -11,6 +11,7 @@ import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.graphics.toColorInt
 import androidx.core.net.toUri
 import androidx.core.view.ViewCompat
@@ -139,7 +140,8 @@ class CrewActivity : AppCompatActivity() {
                     }
 
                     // set element characteristics
-                    personLayout.setBackgroundColor("#000080".toColorInt())
+                    //personLayout.setBackgroundColor("#000080".toColorInt())
+                    personLayout.background = ContextCompat.getDrawable(this, R.drawable.card)
                     nameTextView.setTextColor("#FFFFFF".toColorInt())
                     nameTextView.setTypeface(null, Typeface.BOLD)
                     nameTextView.textSize = 20F

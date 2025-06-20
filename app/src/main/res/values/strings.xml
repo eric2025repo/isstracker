@@ -20,4 +20,5 @@
     <string name="latitude_longitude">Latitude: %1$s\nLongitude: %2$s</string>
     <string name="visibility">ISS will be visible in your sky in\n%1$s\n%2$s</string>
     <string name="direction">Starting azimuth: %1$s %2$s\nStarting elevation: %3$s\nEnding azimuth: %4$s %5$s\nEnding elevation: %6$s\nDuration: %7$d seconds</string>
+    <string name="view_crew">VIEW CREW</string>
 </resources>
