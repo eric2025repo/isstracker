@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:background="#ffdddddd"
+        android:background="@drawable/frontshape"
         android:orientation="vertical"
         tools:context=".CrewActivity">
 
@@ -19,22 +19,13 @@
             android:layout_height="wrap_content"
             tools:ignore="UselessParent">
 
-            <ImageView
-                android:id="@+id/iv_patch"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:contentDescription="@string/mission_patch_image" />
-
             <LinearLayout
                 android:id="@+id/expedition_details"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_toEndOf="@+id/iv_patch"
-                android:paddingStart="10dp"
-                android:paddingEnd="0dp"
                 android:background="@drawable/frontshape"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:gravity="center">
 
                 <TextView
                     android:id="@+id/tv_iss_expedition"
@@ -61,16 +52,19 @@
                     android:textColor="@color/navy"
                     android:textSize="20sp"
                     android:textStyle="bold"
+                    android:paddingBottom="5dp"
                     />
 
             </LinearLayout>
 
             <ImageView
-                android:id="@+id/iv_crew"
+                android:id="@+id/iv_patch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
-                android:contentDescription="@string/crew_group_picture" />
+                android:paddingStart="0dp"
+                android:paddingEnd="20dp"
+                android:contentDescription="@string/mission_patch_image" />
 
         </RelativeLayout>
 

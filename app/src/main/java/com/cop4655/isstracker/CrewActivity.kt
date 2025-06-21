@@ -4,11 +4,12 @@ import android.content.Intent
 import android.graphics.Typeface
 import android.os.Build
 import android.os.Bundle
+import android.view.Gravity
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.ListView
 import android.widget.RelativeLayout
 import android.widget.TextView
-import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -25,7 +26,7 @@ import java.time.format.DateTimeFormatter
 
 class CrewActivity : AppCompatActivity() {
     private lateinit var iv_patch: ImageView
-    private lateinit var iv_crew: ImageView
+    //private lateinit var iv_crew: ImageView
     private lateinit var tv_iss_expedition: TextView
     private lateinit var tv_start_date: TextView
     private lateinit var tv_end_date: TextView
@@ -38,7 +39,7 @@ class CrewActivity : AppCompatActivity() {
         setContentView(R.layout.activity_crew)
 
         iv_patch = findViewById(R.id.iv_patch)
-        iv_crew = findViewById(R.id.iv_crew)
+        //iv_crew = findViewById(R.id.iv_crew)
         tv_iss_expedition = findViewById(R.id.tv_iss_expedition)
         tv_start_date = findViewById(R.id.tv_start_date)
         tv_end_date = findViewById(R.id.tv_end_date)
@@ -55,7 +56,7 @@ class CrewActivity : AppCompatActivity() {
             Picasso.get()
                 .load(expedition.expedition_patch)
                 .placeholder(R.drawable.iss_stroke_159x100_purple)
-                .resize(260, 300)
+                .resize(216, 250)
                 .into(iv_patch)
 
             iv_patch.setOnClickListener {
@@ -64,17 +65,18 @@ class CrewActivity : AppCompatActivity() {
                 startActivity(openURL)
             }
 
+            /*
             Picasso.get()
                 .load(expedition.expedition_image)
                 .placeholder(R.drawable.iss_stroke_159x100_purple)
                 .resize(375, 300)
                 .into(iv_crew)
-
             iv_crew.setOnClickListener {
                 val openURL = Intent(Intent.ACTION_VIEW)
                 openURL.data = expedition.expedition_url.toUri()
                 startActivity(openURL)
             }
+            */
 
             tv_iss_expedition.text = buildString {
                 append(getString(R.string.expedition))
@@ -114,6 +116,7 @@ class CrewActivity : AppCompatActivity() {
                     val facebookImageView = ImageView(this)
                     val twitterImageView = ImageView(this)
                     val instagramImageView = ImageView(this)
+                    val spacecraftLayout = LinearLayout(this)
                     val spacecraftImageView = ImageView(this)
                     val spacecraftTextView = TextView(this)
                     /*
@@ -147,6 +150,27 @@ class CrewActivity : AppCompatActivity() {
                         it.setMargins(5, 5, 5, 5)
                     }
 
+                    // apply characteristics to person layout
+                    personLayout.apply {
+                        this.layoutParams = personLayoutParams
+                    }
+
+                    val spacecraftLayoutParams = LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.WRAP_CONTENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT
+                    ).also {
+                        it.setMargins(5, 5, 5, 5)
+                    }.apply {
+                        gravity = Gravity.CENTER
+                    }
+                    spacecraftLayout.orientation = LinearLayout.VERTICAL
+
+
+                    // apply characteristics to person layout
+                    spacecraftLayout.apply {
+                        this.layoutParams = spacecraftLayoutParams
+                    }
+
                     // set element characteristics
                     //personLayout.setBackgroundColor("#000080".toColorInt())
                     personLayout.background = ContextCompat.getDrawable(this, R.drawable.card)
@@ -168,11 +192,9 @@ class CrewActivity : AppCompatActivity() {
                     spacecraftTextView.setTextColor("#FFFFFF".toColorInt())
                     spacecraftTextView.setTypeface(null, Typeface.BOLD)
                     spacecraftTextView.textSize = 17F
-
-                    // apply characteristics to person layout
-                    personLayout.apply {
-                        this.layoutParams = personLayoutParams
-                    }
+                    spacecraftTextView.width = 450
+                    spacecraftTextView.gravity = Gravity.CENTER
+                    //spacecraftTextView.setPadding(600, 0, 0, 0)
 
                     // set x and y values for elements
                     nameTextView.x = leftMargin
@@ -199,11 +221,14 @@ class CrewActivity : AppCompatActivity() {
                     instagramImageView.x = leftMargin + 300F
                     instagramImageView.y = topMargin + 290F
 
-                    spacecraftImageView.x = leftMargin + 700F
-                    spacecraftImageView.y = topMargin + 50F
+                    spacecraftLayout.x = leftMargin + 550F
+                    spacecraftLayout.y = topMargin + 30F
 
-                    spacecraftTextView.x = leftMargin + 600F
-                    spacecraftTextView.y = topMargin + 250F
+//                    spacecraftImageView.x = leftMargin + 700F
+//                    spacecraftImageView.y = topMargin + 50F
+
+//                    spacecraftTextView.x = leftMargin + 600F
+//                    spacecraftTextView.y = topMargin + 250F
 
                     // populate images and values
                     Picasso.get()
@@ -247,18 +272,20 @@ class CrewActivity : AppCompatActivity() {
                         .resize(60, 60)
                         .into(instagramImageView)
 
-                    for (spacecraft in spacecraftdatamodel.spacecraft) {
-                        if (person.spacecraft == spacecraft.name) {
-                            spacecraftTextView.text = spacecraft.name
-                            Picasso.get()
-                                .load(spacecraft.mission_patch)
-                                .centerCrop()
-                                .resize(200, 200)
-                                .into(spacecraftImageView)
-                            spacecraftImageView.setOnClickListener {
-                                val openURL = Intent(Intent.ACTION_VIEW)
-                                openURL.data = spacecraft.url.toUri()
-                                startActivity(openURL)
+                    if (this::spacecraftdatamodel.isInitialized) {
+                        for (spacecraft in spacecraftdatamodel.spacecraft) {
+                            if (person.spacecraft == spacecraft.name) {
+                                spacecraftTextView.text = spacecraft.name
+                                Picasso.get()
+                                    .load(spacecraft.mission_patch)
+                                    .centerCrop()
+                                    .resize(200, 200)
+                                    .into(spacecraftImageView)
+                                spacecraftImageView.setOnClickListener {
+                                    val openURL = Intent(Intent.ACTION_VIEW)
+                                    openURL.data = spacecraft.url.toUri()
+                                    startActivity(openURL)
+                                }
                             }
                         }
                     }
@@ -297,8 +324,9 @@ class CrewActivity : AppCompatActivity() {
                     personLayout.addView(flagImageView)
                     personLayout.addView(agencyTextView)
                     personLayout.addView(launchedTextView)
-                    personLayout.addView(spacecraftImageView)
-                    personLayout.addView(spacecraftTextView)
+                    spacecraftLayout.addView(spacecraftImageView)
+                    spacecraftLayout.addView(spacecraftTextView)
+                    personLayout.addView(spacecraftLayout)
                     if (person.facebook != "") {
                         personLayout.addView(facebookImageView)
                     }

@@ -11,12 +11,13 @@
 
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="240dp"
         android:layout_centerInParent="true"
         android:alpha=".5"
-        android:contentDescription="@string/background"
         android:scaleType="centerCrop"
-        android:src="@drawable/background" />
+        android:layout_alignParentTop="true"
+        android:contentDescription="@string/background"
+        android:src="@drawable/iss" />
 
     <!-- TITLE -->
     <TextView
@@ -143,7 +144,9 @@
             android:layout_height="50dp"
             android:layout_centerInParent="true"
             android:background="@drawable/sqbutton_9"
-            android:contentDescription="@string/update_iss_location" />
+            android:contentDescription="@string/update_iss_location"
+            android:layout_marginBottom="10dp"
+            />
 
         <TextView
             android:id="@+id/btnText"
@@ -171,20 +174,38 @@
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/btnRow" />
+        android:layout_below="@+id/btnRow"
+        />
 
-    <ImageButton
-        android:id="@+id/imageCrew"
-        android:contentDescription="@string/image_of_crew"
-        style="?android:attr/borderlessButtonStyle"
-        android:text = "@string/view_crew"
-        android:textColor="@color/white"
-        android:textSize="30sp"
-        android:textStyle="bold"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <FrameLayout
         android:layout_alignBottom="@+id/map_fragment"
-        android:layout_alignStart="@+id/map_fragment" />
+        android:layout_alignStart="@+id/map_fragment"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content">
+
+        <ImageButton
+            android:id="@+id/imageCrew"
+            android:contentDescription="@string/image_of_crew"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+        />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginTop="70dp"
+            android:layout_gravity="center_horizontal"
+            android:clickable="false"
+            android:text="@string/view_crew"
+            />
+
+    </FrameLayout>
+
+
 
     <TextView
         android:id="@+id/nextPassText"
@@ -220,13 +241,5 @@
         android:textAlignment="textStart"
         android:textColor="@color/navy" />
 
-    <ImageButton
-        android:id="@+id/missionPatch"
-        android:contentDescription="@string/mission_patch"
-        style="?android:attr/borderlessButtonStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/map_fragment"
-        android:layout_alignEnd="@+id/map_fragment" />
 
 </RelativeLayout>

@@ -42,7 +42,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var imageCrew: ImageButton
     private lateinit var nextPassText: TextView
     private lateinit var directionText: TextView
-    private lateinit var missionPatch: ImageButton
     private lateinit var progressBar: ProgressBar
     private var latLng: LatLng = LatLng(0.0, 0.0)
     private lateinit var issPlace: Place
@@ -73,7 +72,6 @@ class MainActivity : AppCompatActivity() {
         imageCrew = findViewById(R.id.imageCrew)
         nextPassText = findViewById(R.id.nextPassText)
         directionText = findViewById(R.id.directionText)
-        missionPatch = findViewById(R.id.missionPatch)
 
         nextPassText.background = ContextCompat.getDrawable(this, R.drawable.frontshape)
         directionText.background = ContextCompat.getDrawable(this, R.drawable.frontshape)
@@ -85,12 +83,6 @@ class MainActivity : AppCompatActivity() {
                 .placeholder(R.drawable.iss_stroke_159x100_purple)
                 .resize(375, 300)
                 .into(imageCrew)
-
-            Picasso.get()
-                .load(expedition.expedition_patch)
-                .placeholder(R.drawable.iss_stroke_159x100_purple)
-                .resize(260, 300)
-                .into(missionPatch)
         }
 
         // Set an OnClickListener on the button view.
