@@ -231,8 +231,13 @@ class CrewActivity : AppCompatActivity() {
 //                    spacecraftTextView.y = topMargin + 250F
 
                     // populate images and values
+                    var personImage: String = person.image
+                    if (personImage.endsWith("jpgg")) {
+                        personImage = person.image.replace("jpgg", "jpg")
+                    }
+
                     Picasso.get()
-                        .load(person.image)
+                        .load(personImage)
                         .centerCrop()
                         .placeholder(R.drawable.astronaut)
                         .resize(290, 400)
