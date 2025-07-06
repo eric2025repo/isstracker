@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.view.Gravity
 import android.widget.ImageView
 import android.widget.LinearLayout
-import android.widget.ListView
 import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
@@ -26,7 +25,6 @@ import java.time.format.DateTimeFormatter
 
 class CrewActivity : AppCompatActivity() {
     private lateinit var iv_patch: ImageView
-    //private lateinit var iv_crew: ImageView
     private lateinit var tv_iss_expedition: TextView
     private lateinit var tv_start_date: TextView
     private lateinit var tv_end_date: TextView
@@ -39,7 +37,6 @@ class CrewActivity : AppCompatActivity() {
         setContentView(R.layout.activity_crew)
 
         iv_patch = findViewById(R.id.iv_patch)
-        //iv_crew = findViewById(R.id.iv_crew)
         tv_iss_expedition = findViewById(R.id.tv_iss_expedition)
         tv_start_date = findViewById(R.id.tv_start_date)
         tv_end_date = findViewById(R.id.tv_end_date)
@@ -64,19 +61,6 @@ class CrewActivity : AppCompatActivity() {
                 openURL.data = expedition.expedition_url.toUri()
                 startActivity(openURL)
             }
-
-            /*
-            Picasso.get()
-                .load(expedition.expedition_image)
-                .placeholder(R.drawable.iss_stroke_159x100_purple)
-                .resize(375, 300)
-                .into(iv_crew)
-            iv_crew.setOnClickListener {
-                val openURL = Intent(Intent.ACTION_VIEW)
-                openURL.data = expedition.expedition_url.toUri()
-                startActivity(openURL)
-            }
-            */
 
             tv_iss_expedition.text = buildString {
                 append(getString(R.string.expedition))
@@ -119,29 +103,6 @@ class CrewActivity : AppCompatActivity() {
                     val spacecraftLayout = LinearLayout(this)
                     val spacecraftImageView = ImageView(this)
                     val spacecraftTextView = TextView(this)
-                    /*
-                    // generate ids for each element
-                    val portraitId: Int = View.generateViewId()
-                    val nameId: Int = View.generateViewId()
-                    val positionId: Int = View.generateViewId()
-                    val flagId: Int = View.generateViewId()
-                    val agencyId: Int = View.generateViewId()
-                    val launchedId: Int = View.generateViewId()
-                    // set element ids
-                    portraitImageView.id = portraitId
-                    nameTextView.id = nameId
-                    positionTextView.id = positionId
-                    flagImageView.id = flagId
-                    agencyTextView.id = agencyId
-                    launchedTextView.id = launchedId
-
-                     */
-//                    imageViewParam.addRule(RelativeLayout.CENTER_HORIZONTAL);
-                    //imageView.layoutParams = RelativeLayout.
-
-                    //personLayout.setCardElevation(20F)
-                    //personLayout.setCardBackgroundColor(Color.BLUE)
-                    //radius = 10.toFloat()
 
                     val personLayoutParams = RelativeLayout.LayoutParams(
                         RelativeLayout.LayoutParams.MATCH_PARENT,
@@ -172,7 +133,6 @@ class CrewActivity : AppCompatActivity() {
                     }
 
                     // set element characteristics
-                    //personLayout.setBackgroundColor("#000080".toColorInt())
                     personLayout.background = ContextCompat.getDrawable(this, R.drawable.card)
                     nameTextView.setTextColor("#FFFFFF".toColorInt())
                     nameTextView.setTypeface(null, Typeface.BOLD)
@@ -194,7 +154,6 @@ class CrewActivity : AppCompatActivity() {
                     spacecraftTextView.textSize = 17F
                     spacecraftTextView.width = 450
                     spacecraftTextView.gravity = Gravity.CENTER
-                    //spacecraftTextView.setPadding(600, 0, 0, 0)
 
                     // set x and y values for elements
                     nameTextView.x = leftMargin
@@ -223,12 +182,6 @@ class CrewActivity : AppCompatActivity() {
 
                     spacecraftLayout.x = leftMargin + 550F
                     spacecraftLayout.y = topMargin + 30F
-
-//                    spacecraftImageView.x = leftMargin + 700F
-//                    spacecraftImageView.y = topMargin + 50F
-
-//                    spacecraftTextView.x = leftMargin + 600F
-//                    spacecraftTextView.y = topMargin + 250F
 
                     // populate images and values
                     var personImage: String = person.image
