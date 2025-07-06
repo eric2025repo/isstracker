@@ -232,6 +232,7 @@ class CrewActivity : AppCompatActivity() {
 
                     // populate images and values
                     var personImage: String = person.image
+                    // misspelling on API provider side
                     if (personImage.endsWith("jpgg")) {
                         personImage = person.image.replace("jpgg", "jpg")
                     }
